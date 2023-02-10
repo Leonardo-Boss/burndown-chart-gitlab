@@ -1,6 +1,6 @@
 {
-    "link": "",
-    "access_token": "",
-    "project_path": "",
-    "project_id":
+    "link": "example",
+    "access_token": "example",
+    "project_path": "example",
+    "discord_token": "example"
 }
