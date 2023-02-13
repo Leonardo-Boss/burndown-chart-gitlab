@@ -1,4 +1,5 @@
 import json
+import os
 
 import discord
 from discord.ext import commands
@@ -6,7 +7,8 @@ from discord.ext import commands
 from chart import GitLab, create_burndown_chart
 
 description = '''bot for generating burndown chart'''
-CONFIG = 'config/config.json'
+CONFIG_FOLDER = 'config'
+CONFIG = f'{CONFIG_FOLDER}/config.json'
 
 intents = discord.Intents.default()
 intents.members = True
@@ -22,9 +24,19 @@ async def on_ready():
     print('------')
 
 @bot.command()
+async def devclean(ctx):
+    async with ctx.typing():
+        with open(CONFIG) as f:
+            config = json.load(f)
+        command = config['devclean']
+        ssh = f'ssh -i "{CONFIG_FOLDER}/key.pem" {config["serverlink"]} {command}'
+        os.system(ssh)
+
+
+@bot.command()
 async def chart(ctx):
     async with ctx.typing():
-        gitlab = GitLab('config/config.json')
+        gitlab = GitLab(CONFIG)
         issues = gitlab.get_issues_from_open_milestones()
         weights = gitlab.calculate_weights(issues)
         path = create_burndown_chart(*weights)
