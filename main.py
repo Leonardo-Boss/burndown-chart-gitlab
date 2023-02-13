@@ -29,7 +29,7 @@ async def devclean(ctx):
         with open(CONFIG) as f:
             config = json.load(f)
         command = config['devclean']
-        ssh = f'ssh -i "{CONFIG_FOLDER}/key.pem" {config["serverlink"]} {command}'
+        ssh = f'ssh -i "{CONFIG_FOLDER}/key.pem" {config["serverlink"]} "{command}"'
         os.system(ssh)
 
 
