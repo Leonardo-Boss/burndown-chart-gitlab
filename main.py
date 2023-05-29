@@ -24,16 +24,6 @@ async def on_ready():
     print('------')
 
 @bot.command()
-async def devclean(ctx):
-    async with ctx.typing():
-        with open(CONFIG) as f:
-            config = json.load(f)
-        command = config['devclean']
-        ssh = f'ssh -i "{CONFIG_FOLDER}/key.pem" {config["serverlink"]} "{command}"'
-        os.system(ssh)
-
-
-@bot.command()
 async def chart(ctx):
     async with ctx.typing():
         gitlab = GitLab(CONFIG)
