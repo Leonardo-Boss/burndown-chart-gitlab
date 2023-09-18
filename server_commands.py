@@ -12,7 +12,7 @@ class Config:
         with open(config_path) as f:
             config_json = json.load(f)
         self.ip = config_json['ip']
-        self.key = asyncssh.read_private_key(config_path['key_path'])
+        self.key = asyncssh.read_private_key(config_json['key_path'])
         self.username = config_json['username']
         self.port = config_json['port']
 

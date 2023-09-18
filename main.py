@@ -4,8 +4,6 @@ import os
 import discord
 from discord.ext import commands
 
-from chart import GitLab, create_burndown_chart
-
 description = '''bot for generating burndown chart'''
 CONFIG_FOLDER = 'config'
 CONFIG = f'{CONFIG_FOLDER}/config.json'
