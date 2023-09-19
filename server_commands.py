@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-CONFIG_FILE = 'config.json'
+CONFIG_FILE = 'config/server_commands.json'
 
 class Config:
     def __init__(self, config_path) -> None:
@@ -31,19 +31,15 @@ class Server_Commands(commands.Cog):
         self.config = Config(CONFIG_FILE)
         self.sms = Instance_Commands('verde', 'sudo smsclean')
         self.dev = Instance_Commands('roxo', 'sudo devclean')
-        self.non = Instance_Commands('non', 'echo hello')
 
     async def get_client(self) -> asyncssh.SSHClientConnection:
-        return await asyncssh.connect(host=self.config.ip, username=self.config.username, port=self.config.port, client_keys=[self.config.key])
+        return await asyncssh.connect(host=self.config.ip, username=self.config.username, port=self.config.port, client_keys=[self.config.key], known_hosts=None)
     
     def get_instance_from_str(self, instance_str: discord.app_commands.Choice[str]) -> Instance_Commands:
-        match instance_str.value:
-            case 'sms':
-                return self.sms
-            case 'dev':
-                return self.dev
-            case _:
-                return self.non
+        if instance_str.value == 'sms':
+            return self.sms
+        else:
+            return self.dev
 
     @app_commands.command(name='clean', description='limpar banco de dados')
     @app_commands.describe(instancia='A instância do dolibarr')
